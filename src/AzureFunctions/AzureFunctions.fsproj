@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
@@ -6,7 +6,6 @@
     <AssemblyVersion>1.1.6.0</AssemblyVersion>
     <Version>1.1.6</Version>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
@@ -16,6 +15,10 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Producer\Samples.fs" />
+    <Compile Include="Producer\Service.fs" />
+    <Compile Include="Producer\Producer.fs" />
+    <None Include="test.fsx" />
     <Compile Include="HelloWorld\HelloFunctions.fs" />
     <Content Include="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
