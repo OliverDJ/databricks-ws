@@ -3,6 +3,7 @@ name: Stream
 
 variables:
   - template: configurations\collective.yml
+  - group: databricks-ws
 
 stages:
   - stage: build
@@ -48,10 +49,11 @@ stages:
             ConnectedServiceName: DataBricksWSConnection
             deploymentOutputs: armOutputs
           
-        - task: AzurePowerShell@4
+        - task: AzurePowerShell@5
           displayName: Expose arm output variables
           inputs:
             azureSubscription: DataBricksWSConnection
+            azurePowerShellVersion: latestVersion
             scriptType: 'InlineScript'
             Inline: |
               $var=ConvertFrom-Json '$(armOutputs)'
