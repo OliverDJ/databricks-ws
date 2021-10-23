@@ -51,7 +51,7 @@ stages:
         - task: AzurePowerShell@4
           displayName: Expose arm output variables
           inputs:
-            azureSubscription: HealthubAzureConnection
+            azureSubscription: DataBricksWSConnection
             scriptType: 'InlineScript'
             Inline: |
               $var=ConvertFrom-Json '$(armOutputs)'
