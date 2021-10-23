@@ -17,9 +17,17 @@
     "variables": {
         "functionAppName": "[concat(parameters('functionAppBaseName'), '-', parameters('environment'))]",
         "storageAccountName": "[concat(parameters('functionAppBaseName'), 'storage', parameters('environment'))]",
-        "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+        "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+        "applicationInsightsName": "[concat(parameters('functionAppBaseName'), '-ai-', parameters('environment'))]"
+
     },
     "resources": [
+        {
+            "apiVersion": "2018-05-01-preview",
+            "name": "[variables('applicationInsightsName')]",
+            "type": "microsoft.insights/components",
+            "location":"[resourceGroup().location]"
+        },
         {
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('storageAccountName')]",
@@ -50,7 +58,11 @@
                         {
                             "name": "FUNCTIONS_EXTENSION_VERSION",
                             "value": "~3"
-                        }
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', variables('applicationInsightsName')), '2015-05-01').InstrumentationKey]"
+                        }   
                     ]
                 }
             },
