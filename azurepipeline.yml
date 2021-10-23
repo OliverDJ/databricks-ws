@@ -24,7 +24,7 @@ stages:
     dependsOn: build
     condition: succeeded('build')
     variables:
-    - template: configuration\dev.yml
+    - template: configurations\dev.yml
 
     jobs:
     - job:
