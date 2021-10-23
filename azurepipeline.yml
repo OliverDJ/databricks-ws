@@ -71,4 +71,4 @@ stages:
             appType: functionAppLinux
             appName: stream-dev # $(applicationName)
             package: $(dropDir)/**/*.zip
-            appSettings: -eventhubreader $(eventhubreader)
+            appSettings: -eventhubreader $(eventhubreader) -eventhubwriter $(eventhubwriter)
