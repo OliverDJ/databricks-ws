@@ -1,0 +1,8 @@
+
+
+variables:
+  buildScriptPath: $(Build.Repository.LocalPath)\deploy\build.ps1
+  artifactToPublishPath: $(Build.Repository.LocalPath)\deploy\build\artifacts
+  vmImage: 'windows-latest'
+  location: 'West Europe'
+  dropDir: '$(Agent.WorkFolder)\1\drop'

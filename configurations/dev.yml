@@ -1,0 +1,5 @@
+variables:
+  location: 'West Europe'
+  resourceGroup: databricks-ws
+  subscriptionId: 6e6c7cb4-694c-4f35-80b0-31fe418d5f48
+  pathToArmParameters: '$(dropDir)\azure-resources\parameters\atest.json'

@@ -1,0 +1,41 @@
+name: Stream
+stages:
+  - stage: build
+    jobs:
+      - job:
+        pool:
+          vmImage: $(vmImage)
+        steps:
+        - task: PowerShell@2
+          inputs:
+            targetType: 'filePath'
+            filePath: $(buildScriptPath)
+          displayName: 'Building powered by Powershell'
+        - publish: $(artifactToPublishPath)
+          artifact: drop
+
+  - stage: deploy_dev
+    displayName: Deploy Dev
+    dependsOn: build
+    jobs:
+    - job:
+      pool:
+        vmImage: $(vmImage)
+      steps:
+        - checkout: none
+        - download: current
+          artifact: drop
+
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName: 'ARM resource deployment: $(resourceGroup)'
+          inputs:
+            location: 'West Europe'
+            csmFile: '$(dropDir)\arm.json'
+            csmParametersFile: '$(dropDir)\parameters\dev.json'
+            overrideParameters: ''
+            subscriptionId: $(subscriptionId)
+            resourceGroupName: $(resourceGroup)
+            ConnectedServiceName: DataBricksWSConnection
+            deploymentOutputs: armOutputs
+            # deploymentName: ''
+          
