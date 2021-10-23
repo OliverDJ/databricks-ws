@@ -58,17 +58,17 @@ stages:
             Inline: |
               $var=ConvertFrom-Json '$(armOutputs)'
               $value=$var.applicationName.value
-              Write-Host "##vso[task.setvariable variable=databricksWorkspaceName;]$value"
+              Write-Host "##vso[task.setvariable variable=applicationName;]$value"
 
         - powershell: |
-            write-host "applicationName from arm: $(applicationName)"
+            # write-host "applicationName from arm: $(applicationName)"
             write-host "eh read $(eventhubreader)"
             write-host "eh write $(eventhubwriter)"
-            
+
         - task: AzureFunctionApp@1 # Add this at the end of your file
           inputs:
             azureSubscription: DataBricksWSConnection
             appType: functionAppLinux
-            appName: $(applicationName)
+            appName: stream-dev # $(applicationName)
             package: $(dropDir)/**/*.zip
             appSettings: -test hello -test2 hehe
