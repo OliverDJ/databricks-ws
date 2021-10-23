@@ -26,7 +26,15 @@
             "apiVersion": "2018-05-01-preview",
             "name": "[variables('applicationInsightsName')]",
             "type": "microsoft.insights/components",
-            "location":"[resourceGroup().location]"
+            "location":"[resourceGroup().location]",
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "RetentionInDays": 10,
+                "IngestionMode": "ApplicationInsights",
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+            }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
