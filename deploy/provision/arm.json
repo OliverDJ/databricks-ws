@@ -62,5 +62,11 @@
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
             ]
         }
-    ]
+    ],
+    "outputs": {
+        "applicationName": {
+            "type": "string",
+            "value": "[variables('functionAppName')]"
+        }
+    }
 }

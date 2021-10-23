@@ -48,3 +48,22 @@ stages:
             ConnectedServiceName: DataBricksWSConnection
             deploymentOutputs: armOutputs
           
+        - task: AzurePowerShell@4
+          displayName: Expose arm output variables
+          inputs:
+            azureSubscription: HealthubAzureConnection
+            scriptType: 'InlineScript'
+            Inline: |
+              $var=ConvertFrom-Json '$(armOutputs)'
+              $value=$var.applicationName.value
+              Write-Host "##vso[task.setvariable variable=databricksWorkspaceName;]$value"
+
+        - powershell: |
+            write-host "applicationName from arm: $(applicationName)"
+
+        - task: AzureFunctionApp@1 # Add this at the end of your file
+          inputs:
+            azureSubscription: DataBricksWSConnection
+            appType: functionAppLinux
+            appName: $(applicationName)
+            package: $(dropDir)/**/*.zip
