@@ -30,7 +30,7 @@
             "kind": "web",
             "properties": {
                 "Application_Type": "web",
-                "RetentionInDays": 10,
+                "RetentionInDays": 30,
                 "IngestionMode": "ApplicationInsights",
                 "publicNetworkAccessForIngestion": "Enabled",
                 "publicNetworkAccessForQuery": "Enabled"
