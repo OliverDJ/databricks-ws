@@ -7,17 +7,23 @@
     <Version>1.1.6</Version>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.EventHubs" Version="4.3.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventHubs" Version="4.1.1" />
+
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.8" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models.fs" />
     <Compile Include="Producer\Samples.fs" />
     <Compile Include="Producer\Service.fs" />
     <Compile Include="Producer\Producer.fs" />
+    <Compile Include="Consumer\Consumer.fs" />
     <None Include="test.fsx" />
     <Compile Include="HelloWorld\HelloFunctions.fs" />
     <Content Include="host.json">
@@ -29,5 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.7.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
   </ItemGroup>
 </Project>

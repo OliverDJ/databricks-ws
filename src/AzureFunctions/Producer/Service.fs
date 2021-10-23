@@ -1,14 +1,5 @@
 ﻿module Service
-
-
-type User = 
-    {
-        Name: string
-        Ssn: string
-        LastName: string
-    } with static member Create n ssn ln =
-            { Name = n; Ssn = ssn; LastName = ln}
-
+open Models
 
 let (|Male | Female|) input = 
     if input % 2 = 0 then Female else Male
