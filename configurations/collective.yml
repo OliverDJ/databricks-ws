@@ -6,3 +6,4 @@ variables:
   vmImage: 'windows-latest'
   location: 'West Europe'
   dropDir: '$(Agent.WorkFolder)\1\drop'
+  armPath: '$(dropDir)\arm.json'

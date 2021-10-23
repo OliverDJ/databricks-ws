@@ -1,4 +1,9 @@
 name: Stream
+
+
+variables:
+  - template: configurations\collective.yml
+
 stages:
   - stage: build
     jobs:
@@ -17,25 +22,29 @@ stages:
   - stage: deploy_dev
     displayName: Deploy Dev
     dependsOn: build
+    condition: succeeded('build')
+    variables:
+    - template: configuration\dev.yml
+
     jobs:
     - job:
       pool:
         vmImage: $(vmImage)
       steps:
         - checkout: none
+
         - download: current
           artifact: drop
 
         - task: AzureResourceManagerTemplateDeployment@3
           displayName: 'ARM resource deployment: $(resourceGroup)'
           inputs:
-            location: 'West Europe'
-            csmFile: '$(dropDir)\arm.json'
-            csmParametersFile: '$(dropDir)\parameters\dev.json'
+            location: $(location)
+            csmFile: $(armPath)
+            csmParametersFile: $(armParamsPath)
             overrideParameters: ''
             subscriptionId: $(subscriptionId)
             resourceGroupName: $(resourceGroup)
             ConnectedServiceName: DataBricksWSConnection
             deploymentOutputs: armOutputs
-            # deploymentName: ''
           
