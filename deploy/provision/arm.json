@@ -25,7 +25,7 @@
         "storageAccountFuncId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameFunction'))]",
         "storageAccountLakeId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountLakeName'))]",
         "applicationInsightsName": "[concat(parameters('functionAppBaseName'), '-ai-', parameters('environment'))]",
-        "blobServiceName": "[concat('dbws-blob-', parameters('environment'))]"
+        "blobServiceName": "[concat(variables('storageAccountLakeName'), '/', parameters('blobContainerServiceName'))]"
 
     },
     "resources": [
