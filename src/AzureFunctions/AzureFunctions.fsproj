@@ -19,6 +19,7 @@
     <PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Model.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="Producer\Samples.fs" />
     <Compile Include="Producer\Service.fs" />
@@ -35,8 +36,5 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.7.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
   </ItemGroup>
 </Project>

@@ -49,8 +49,12 @@ let run (
                 
             let messages = users |> Array.map (EventhubMessage.Create "1.0.1")
 
+            let tee f x =
+                f x
+                x
             let! u = 
                 messages 
+                |> Array.map( tee (printfn "%A") )
                 |> Array.map(addToEH) 
                 |> Task.WhenAll 
             return OkObjectResult(messages) :> IActionResult

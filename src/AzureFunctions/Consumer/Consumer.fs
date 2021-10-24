@@ -15,14 +15,14 @@ open FSharp.Control.Tasks.V2.ContextInsensitive
 open Service
 open System.Threading.Tasks
 open Models
+0
+//[<FunctionName("EventhubReader")>]
+//let consume ([<EventHubTrigger(eventHubName = "",
+//                                Connection = "eventhubreader",
+//                                ConsumerGroup = "$Default")>] msg: EventData,
+//              log: ILogger) =
+//    task {
 
-[<FunctionName("EventhubReader")>]
-let consume ([<EventHubTrigger(eventHubName = "",
-                                Connection = "eventhubreader",
-                                ConsumerGroup = "azurefunction-ws")>] msg: EventData,
-              log: ILogger) =
-    task {
-
-        printfn "hello!"
-        return 0
-    }
+//        printfn "hello!"
+//        return 0
+//    }
