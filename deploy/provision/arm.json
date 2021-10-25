@@ -172,7 +172,7 @@
 
     ],
     "outputs": {
-        "applicationName": {
+        "functionAppName": {
             "type": "string",
             "value": "[variables('functionAppName')]"
         }

@@ -56,9 +56,9 @@ stages:
             azurePowerShellVersion: latestVersion
             scriptType: 'InlineScript'
             Inline: |
-              $var=ConvertFrom-Json '$(armOutputs)'
+              $var = ConvertFrom-Json '$(armOutputs)'
               write-host "* $(armOutputs)"
-              $temp=$var.applicationName.value
+              $temp=$var.functionAppName.value
               write-host "-> $temp"
               Write-Host "##vso[task.setvariable variable=applicationName;]$ $temp"
 
@@ -73,4 +73,4 @@ stages:
             appType: functionAppLinux
             appName: stream-dev # $(applicationName)
             package: $(dropDir)/**/*.zip
-            appSettings: -eventhubreader $(eventhubreader) -eventhubwriter $(eventhubwriter) -crontab $(crontab) -consumergroup $(consumergroup)
+            appSettings: -eventhubreader $(eventhubreader) -eventhubwriter $(eventhubwriter) -consumergroup $(consumergroup)

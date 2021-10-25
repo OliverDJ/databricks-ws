@@ -13,7 +13,7 @@ let tee f x =
 
 [<FunctionName("UserProducer")>]
 let run (
-        [<TimerTrigger("%crontab%")>] timer: TimerInfo, 
+        [<TimerTrigger("0 */1 * * * *")>] timer: TimerInfo, 
         [<EventHub(eventHubName = "",
             Connection = "eventhubwriter")>] eventhub: IAsyncCollector<EventhubMessage<User>>,
         log: ILogger) =
