@@ -2,6 +2,11 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "eventhubreader": "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=send;SharedAccessKey=RdesnVohYR3F0n9rEeXSFliOyYUUkX858Ke8nAF0l/Y=;EntityPath=databricks-workshop",
+    "consumergroup": "azurefunction-ws",
+    "eventhubwriter": "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=send;SharedAccessKey=RdesnVohYR3F0n9rEeXSFliOyYUUkX858Ke8nAF0l/Y=;EntityPath=databricks-workshop",
+    "FUNCTIONS_EXTENSION_VERSION": "~3",
+    "crontab": "0 */1 * * * *"
   }
 }

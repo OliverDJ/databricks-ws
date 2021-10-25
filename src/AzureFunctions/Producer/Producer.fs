@@ -16,11 +16,14 @@ open System.Threading.Tasks
 open Models
 
 
-
+let tee f x =
+    f x
+    x
 
 [<FunctionName("GetUserSamples")>]
 let run (
-        [<HttpTrigger(AuthorizationLevel.Function, "get", Route = "usersample" )>]req: HttpRequest, 
+        //[<HttpTrigger(AuthorizationLevel.Function, "get", Route = "usersample" )>]req: HttpRequest, 
+        [<TimerTrigger("%crontab%")>] timer: TimerInfo, 
         [<EventHub(eventHubName = "databricks-workshop",
             Connection = "eventhubwriter")>] eventhub: IAsyncCollector<EventhubMessage<User>>,
         log: ILogger) =
@@ -41,23 +44,21 @@ let run (
                 createGenderSpecificUser 
                     rnd lastNames maleSsn maleNames femaleSsn femaleNames
 
-            let users = 
-                10
-                |> pickMaleAndFemales rnd
-                |> List.toArray
-                |> Array.map (_createUser)
-                
-            let messages = users |> Array.map (EventhubMessage.Create "1.0.1")
+            let nrOfUsers = 10
 
-            let tee f x =
-                f x
-                x
+            let messages = 
+                nrOfUsers
+                |> pickMaleAndFemales rnd  // [0,1,1,0,1,0]
+                |> List.map(_createUser) // Users
+                |> List.map (EventhubMessage.Create "1.0.1")
+
             let! u = 
                 messages 
-                |> Array.map( tee (printfn "%A") )
-                |> Array.map(addToEH) 
+                |> List.map(tee(printfn "sending %A") )
+                |> List.map(addToEH) 
                 |> Task.WhenAll 
-            return OkObjectResult(messages) :> IActionResult
+
+            //return OkObjectResult(messages) :> IActionResult
+            return ()
         }
         
-        //|> Async.StartAsTask

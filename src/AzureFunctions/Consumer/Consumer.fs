@@ -15,14 +15,23 @@ open FSharp.Control.Tasks.V2.ContextInsensitive
 open Service
 open System.Threading.Tasks
 open Models
-0
-//[<FunctionName("EventhubReader")>]
-//let consume ([<EventHubTrigger(eventHubName = "",
-//                                Connection = "eventhubreader",
-//                                ConsumerGroup = "$Default")>] msg: EventData,
-//              log: ILogger) =
-//    task {
+open System.Text
 
-//        printfn "hello!"
-//        return 0
-//    }
+let deserialize<'T> s = JsonConvert.DeserializeObject<'T>(s)
+
+
+[<FunctionName("EventhubReader")>]
+let consume ([<EventHubTrigger(eventHubName = "databricks-workshop",
+                                Connection = "eventhubreader",
+                                ConsumerGroup = "%consumergroup%")>] msg: EventData,
+              log: ILogger) =
+    task {
+        let user = 
+            msg 
+            |> (fun m ->  Encoding.UTF8.GetString(m.Body.Array, m.Body.Offset, m.Body.Count))
+            |> deserialize<EventhubMessage<Models.User>>
+
+
+        user |> printfn "-> %A"
+        return ()
+    }
