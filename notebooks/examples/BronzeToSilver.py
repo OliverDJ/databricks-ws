@@ -123,10 +123,11 @@ gdpr_safe.display()
 # COMMAND ----------
 
 
-(gdpr_safe.writeStream 
-    .format("delta") 
-    .option("checkpointLocation", silver_checkpoint_path) 
-    .outputMode("append") 
-    .trigger(once=True)
-    .start(silver_storage_path)
+(gdpr_safe
+  .writeStream 
+  .format("delta") 
+  .option("checkpointLocation", silver_checkpoint_path) 
+  .outputMode("append") 
+  .trigger(once=True)
+  .start(silver_storage_path)
 )
