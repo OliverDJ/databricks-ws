@@ -59,8 +59,7 @@ stages:
               $var = ConvertFrom-Json '$(armOutputs)'
               write-host "* $(armOutputs)"
               $temp=$var.functionAppName.value
-              write-host "-> $temp"
-              Write-Host "##vso[task.setvariable variable=applicationName;]$ $temp"
+              Write-Host "##vso[task.setvariable variable=applicationName;]$temp"
 
         - powershell: |
             write-host "applicationName from arm: $(applicationName)"
@@ -71,6 +70,6 @@ stages:
           inputs:
             azureSubscription: DataBricksWSConnection
             appType: functionAppLinux
-            appName: stream-dev # $(applicationName)
+            appName: $(applicationName)
             package: $(dropDir)/**/*.zip
             appSettings: -eventhubreader $(eventhubreader) -eventhubwriter $(eventhubwriter) -consumergroup $(consumergroup)
