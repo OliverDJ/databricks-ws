@@ -3,10 +3,10 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "eventhubreader": "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=send;SharedAccessKey=RdesnVohYR3F0n9rEeXSFliOyYUUkX858Ke8nAF0l/Y=;EntityPath=databricks-workshop",
+    "eventhubreader": "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=listen;SharedAccessKey=RvfZn2tVJQQBwmQ1+JiiW6BbWsGces1BcfZJ1DFFe18=;EntityPath=databricks-workshop",
     "consumergroup": "$Default",
     "eventhubwriter": "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=send;SharedAccessKey=RdesnVohYR3F0n9rEeXSFliOyYUUkX858Ke8nAF0l/Y=;EntityPath=databricks-workshop",
     "FUNCTIONS_EXTENSION_VERSION": "~3",
-    "crontab": "0 */1 * * * *"
+    "crontab": "0,20,40 * * * * *"
   }
 }

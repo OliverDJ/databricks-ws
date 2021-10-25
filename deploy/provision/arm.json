@@ -169,7 +169,6 @@
                 "[variables('storageAccountLakeId')]"
             ]
         }
-
     ],
     "outputs": {
         "functionAppName": {

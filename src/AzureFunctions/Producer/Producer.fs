@@ -13,7 +13,7 @@ let tee f x =
 
 [<FunctionName("UserProducer")>]
 let run (
-        [<TimerTrigger("0 */1 * * * *")>] timer: TimerInfo, 
+        [<TimerTrigger("0,20,40 * * * * *")>] timer: TimerInfo, 
         [<EventHub(eventHubName = "",
             Connection = "eventhubwriter")>] eventhub: IAsyncCollector<EventhubMessage<User>>,
         log: ILogger) =
@@ -34,7 +34,7 @@ let run (
                 createGenderSpecificUser 
                     rnd lastNames maleSsn maleNames femaleSsn femaleNames
 
-            let nrOfUsers = 10
+            let nrOfUsers = 100
 
             let print x =  x |> sprintf "sending %A" |> log.LogInformation
 
