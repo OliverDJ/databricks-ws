@@ -33,6 +33,10 @@ read_stream =  (
 
 # COMMAND ----------
 
+read_stream.display()
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Storage Conf
 
@@ -60,3 +64,9 @@ r = (
         .trigger(once=True)
         .start(storage_path)
 )
+
+# COMMAND ----------
+
+table_name = "users_bronze"
+sqlQueryString = "CREATE TABLE IF NOT EXISTS {0} USING DELTA LOCATION '{1}'".format(table_name, storage_path)
+spark.sql(sqlQueryString)

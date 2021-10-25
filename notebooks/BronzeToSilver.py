@@ -1,4 +1,19 @@
 # Databricks notebook source
+type EventhubMessage<'T> = 
+    {
+        Version: string
+        Payload: 'T
+    }
+
+type User = 
+    {
+        Name: string
+        Ssn: string
+        LastName: string
+    }
+
+# COMMAND ----------
+
 def createEventhubMessageSchema(payload_schema):
     eventhub_message_schema = (
         StructType(
