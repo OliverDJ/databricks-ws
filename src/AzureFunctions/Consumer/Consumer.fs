@@ -20,7 +20,7 @@ open System.Text
 let deserialize<'T> s = JsonConvert.DeserializeObject<'T>(s)
 
 
-[<FunctionName("EventhubReader")>]
+[<FunctionName("UserConsumer")>]
 let consume ([<EventHubTrigger(eventHubName = "databricks-workshop",
                                 Connection = "eventhubreader",
                                 ConsumerGroup = "%consumergroup%")>] msg: EventData,
@@ -31,7 +31,6 @@ let consume ([<EventHubTrigger(eventHubName = "databricks-workshop",
             |> (fun m ->  Encoding.UTF8.GetString(m.Body.Array, m.Body.Offset, m.Body.Count))
             |> deserialize<EventhubMessage<Models.User>>
 
-
-        user |> printfn "-> %A"
+        user |>  sprintf "-> %A" |> log.LogInformation
         return ()
     }

@@ -1,30 +1,20 @@
 ﻿module Producer
 
-open System
-open System.IO
-open Microsoft.AspNetCore.Mvc
-open Microsoft.Azure.WebJobs
-open Microsoft.Azure.WebJobs.Extensions.Http
-open Microsoft.AspNetCore.Http
-open Newtonsoft.Json
-open Microsoft.Extensions.Logging
-open Microsoft.Azure.EventHubs
-open Samples
-open FSharp.Control.Tasks.V2.ContextInsensitive
 open Service
-open System.Threading.Tasks
 open Models
-
+open System.Threading.Tasks
+open Microsoft.Azure.WebJobs
+open Microsoft.Extensions.Logging
+open FSharp.Control.Tasks.V2.ContextInsensitive
 
 let tee f x =
     f x
     x
 
-[<FunctionName("GetUserSamples")>]
+[<FunctionName("UserProducer")>]
 let run (
-        //[<HttpTrigger(AuthorizationLevel.Function, "get", Route = "usersample" )>]req: HttpRequest, 
         [<TimerTrigger("%crontab%")>] timer: TimerInfo, 
-        [<EventHub(eventHubName = "databricks-workshop",
+        [<EventHub(eventHubName = "",
             Connection = "eventhubwriter")>] eventhub: IAsyncCollector<EventhubMessage<User>>,
         log: ILogger) =
         task {
@@ -46,19 +36,17 @@ let run (
 
             let nrOfUsers = 10
 
-            let messages = 
-                nrOfUsers
-                |> pickMaleAndFemales rnd  // [0,1,1,0,1,0]
-                |> List.map(_createUser) // Users
-                |> List.map (EventhubMessage.Create "1.0.1")
+            let print x =  x |> sprintf "sending %A" |> log.LogInformation
 
             let! u = 
-                messages 
-                |> List.map(tee(printfn "sending %A") )
+                nrOfUsers
+                |> pickMaleAndFemales rnd  // [0,1,1,0,1,0]
+                |> List.map(_createUser) 
+                |> List.map (EventhubMessage.Create "1.0.1")
+                |> List.map(tee print)
                 |> List.map(addToEH) 
                 |> Task.WhenAll 
 
-            //return OkObjectResult(messages) :> IActionResult
             return ()
         }
         

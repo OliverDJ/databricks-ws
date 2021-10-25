@@ -16,21 +16,6 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.8" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
     <PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
-
-    <PackageReference Include="Azure.Identity" Version="1.2.3" />
-    <PackageReference Include="FSharp.Data" Version="3.3.3" />
-    <PackageReference Include="LoggerExtensions" Version="1.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventHubs" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="4.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.7.1" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Azure.EventHubs.Processor" Version="4.2.0" />
-    
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models.fs" />
