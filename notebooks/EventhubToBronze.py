@@ -1,23 +1,24 @@
 # Databricks notebook source
-# encrypts the eventhub connection string and creates a dictionary: eventhub_conf that is passed into .readStream.format("eventhubs").options(**eventhub_conf)
-#requires maven plibrary installed on cluster: com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.18
-def create_eventhub_config(connection_string, consumer_group):
-  conf = {}
-  encrypted_connection_string = sc._jvm.org.apache.spark.eventhubs.EventHubsUtils.encrypt(connection_string)
-  conf["eventhubs.connectionString"] = encrypted_connection_string
-  conf["eventhubs.consumerGroup"] = consumer_group
-  return conf
-
+# MAGIC %md
+# MAGIC ## Eventhub Conf
 
 # COMMAND ----------
 
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
-eh_raw_con = "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=listen;SharedAccessKey=RvfZn2tVJQQBwmQ1+JiiW6BbWsGces1BcfZJ1DFFe18=;EntityPath=databricks-workshop"
+eh_connection_string = "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=listen;SharedAccessKey=RvfZn2tVJQQBwmQ1+JiiW6BbWsGces1BcfZJ1DFFe18=;EntityPath=databricks-workshop"
 consumer_group = "databricks-ws"
 
-eh_conf = create_eventhub_config(eh_raw_con, consumer_group)
+eventhub_conf = {}
+encrypted_connection_string = sc._jvm.org.apache.spark.eventhubs.EventHubsUtils.encrypt(eh_connection_string)
+eventhub_conf["eventhubs.connectionString"] = encrypted_connection_string
+eventhub_conf["eventhubs.consumerGroup"] = consumer_group
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Read Stream
 
 # COMMAND ----------
 
@@ -29,3 +30,33 @@ read_stream =  (
       .load()
       .withColumn("body", col("body").cast("string"))
   )
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Storage Conf
+
+# COMMAND ----------
+
+path = 'eventhub/userdata'
+mount_point = "/mnt/db-ws-lake/bronze"
+checkpoint_path = "{0}/{1}.checkpoint".format(mount_point, path)
+storage_path = "{0}/{1}.delta".format(mount_point, path)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Write Stream
+
+# COMMAND ----------
+
+r = (
+  read_stream
+  .writeStream 
+        .format("delta") 
+        .option("checkpointLocation", checkpoint_path) 
+        .outputMode("append") 
+        .queryName('stream_name')
+        .trigger(once=True)
+        .start(storage_path)
+)
