@@ -3,6 +3,10 @@ trees = spark.read.csv("/mnt/db-ws-lake/bronze/trees.csv", header="true", inferS
 
 # COMMAND ----------
 
+places.display()
+
+# COMMAND ----------
+
 trees.display()
 
 # COMMAND ----------
