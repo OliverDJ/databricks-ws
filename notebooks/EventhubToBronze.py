@@ -11,8 +11,17 @@ def create_eventhub_config(connection_string, consumer_group):
 
 # COMMAND ----------
 
-def read_stream(eventhub_conf, stream_name): #, checkpoint_path, storage_path):
-  read_df = (
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
+
+eh_raw_con = "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=listen;SharedAccessKey=RvfZn2tVJQQBwmQ1+JiiW6BbWsGces1BcfZJ1DFFe18=;EntityPath=databricks-workshop"
+consumer_group = "databricks-ws"
+
+eh_conf = create_eventhub_config(eh_raw_con, consumer_group)
+
+# COMMAND ----------
+
+read_stream =  (
     spark
       .readStream
       .format("eventhubs")
@@ -20,27 +29,3 @@ def read_stream(eventhub_conf, stream_name): #, checkpoint_path, storage_path):
       .load()
       .withColumn("body", col("body").cast("string"))
   )
-  return read_df
-    
-
-# COMMAND ----------
-
-
-from pyspark.sql.types import *
-from pyspark.sql.functions import *
-
-
-eh_raw_con = "Endpoint=sb://ite-mad-eventhub.servicebus.windows.net/;SharedAccessKeyName=listen;SharedAccessKey=RvfZn2tVJQQBwmQ1+JiiW6BbWsGces1BcfZJ1DFFe18=;EntityPath=databricks-workshop"
-
-consumer_group = "databricks-ws"
-
-eh_conf = create_eventhub_config(eh_raw_con, consumer_group)
-
-
-# COMMAND ----------
-
-r = read_stream(eh_conf, "my_stream", )
-
-# COMMAND ----------
-
-r.display()
