@@ -1,4 +1,7 @@
 # Databricks notebook source
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
+
 places_csv_path = "/mnt/db-ws-lake/bronze/places.csv"
 trees_csv_path = "/mnt/db-ws-lake/bronze/trees.csv"
 
