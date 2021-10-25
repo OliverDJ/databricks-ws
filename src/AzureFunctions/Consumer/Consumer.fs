@@ -21,7 +21,7 @@ let deserialize<'T> s = JsonConvert.DeserializeObject<'T>(s)
 
 
 [<FunctionName("UserConsumer")>]
-let consume ([<EventHubTrigger(eventHubName = "databricks-workshop",
+let consume ([<EventHubTrigger(eventHubName = "",
                                 Connection = "eventhubreader",
                                 ConsumerGroup = "%consumergroup%")>] msg: EventData,
               log: ILogger) =
