@@ -2,18 +2,8 @@
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 import json
-import datetime
-
-# COMMAND ----------
-
-user_schema = StructType(
-    [
-        StructField('Id', IntegerType(), True)
-      , StructField('Name', StringType(), True)
-      , StructField('Age', IntegerType(), True)
-      , StructField('SSN', StringType(), True)
-      , StructField('CreatedAt', TimestampType(), True)
-    ])
+from datetime import datetime
+from pyspark.sql import *
 
 # COMMAND ----------
 
@@ -22,32 +12,22 @@ from pyspark.sql import *
 
 # COMMAND ----------
 
-columns = ['migration_id', 'product_version', 'created_at']
-vals = [(migration_name, version, datetime.now())]
+columns = ['product_id', 'version', 'name', 'created_at']
+vals = [
+    (1337, '1.0.1', 'chocolate chip', datetime.now()), 
+    (87, '1.0.1', 'peanutbutter fudge', datetime.now()),
+    (12, '2.0.3', 'vanilla extreme', datetime.now())
+]
 df = spark.createDataFrame(vals, columns)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Json
+df.display()
 
 # COMMAND ----------
 
-user_dict =(
-  {
-    "Id": 1, 
-    "Name": "Kim",
-    "Age": 39,
-    "SSN": "01013900244",
-    "CreatedAt": datetime.datetime.now() 
-  }
-)
-
-user_json = from_json(user_dict, user_schema)
+v1 = df.filter(col('version') == '1.0.1')
 
 # COMMAND ----------
 
-# import pyspark class Row from module sql
-from pyspark.sql import *
-
-
+v1.display()
